@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Learning Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            background: rgba(15, 15, 15, 0.95);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 30px 80px rgba(138, 43, 226, 0.5), 0 0 100px rgba(0, 255, 255, 0.3);
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 1;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(40px) scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .countdown-timer {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #8a2be2 0%, #ff00ff 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.6), 0 0 40px rgba(255, 0, 255, 0.4);
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            border: 2px solid rgba(255, 0, 255, 0.5);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(138, 43, 226, 0.6), 0 0 40px rgba(255, 0, 255, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(138, 43, 226, 0.8), 0 0 60px rgba(255, 0, 255, 0.6); }
+        }
+
+        h1 {
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #8a2be2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3em;
+            font-weight: 700;
+            animation: slideDown 0.6s ease;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        h2 {
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 600;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 255, 0.5));
+        }
+
+        .landing-page {
+            text-align: center;
+        }
+
+        .mode-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .mode-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: white;
+            padding: 40px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(138, 43, 226, 0.4);
+        }
+
+        .mode-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .mode-card:hover::before {
+            left: 100%;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(138, 43, 226, 0.6), 0 0 60px rgba(0, 255, 255, 0.4);
+            border-color: #00ffff;
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+        }
+
+        .mode-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .mode-card p {
+            font-size: 1.05em;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .settings {
+            margin-top: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            animation: fadeInLeft 0.5s ease;
+        }
+
+        @keyframes fadeInLeft {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        label {
+            display: block;
+            background: linear-gradient(135deg, #00ffff 0%, #8a2be2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 3px solid rgba(138, 43, 226, 0.4);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            background: rgba(20, 20, 20, 0.8);
+            color: white;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.2), 0 0 30px rgba(0, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        button {
+            background: linear-gradient(135deg, #8a2be2 0%, #ff00ff 100%);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            margin: 10px;
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.5), 0 0 30px rgba(255, 0, 255, 0.3);
+            font-family: 'Inter', sans-serif;
+            border: 2px solid rgba(255, 0, 255, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(138, 43, 226, 0.7), 0 0 50px rgba(255, 0, 255, 0.5);
+            background: linear-gradient(135deg, #9d3bf0 0%, #ff1aff 100%);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 35px;
+            background: linear-gradient(90deg, #f5f5f5, #e8e8e8);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ffff 0%, #8a2be2 50%, #ff00ff 100%);
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.05em;
+            box-shadow: 0 2px 10px rgba(138, 43, 226, 0.5), 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4), 0 0 60px rgba(0, 255, 255, 0.2);
+            margin-bottom: 25px;
+            animation: cardSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        @keyframes cardSlideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .word {
+            font-size: 3em;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 35px;
+            animation: wordZoom 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.6));
+        }
+
+        @keyframes wordZoom {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .definition {
+            font-size: 1.4em;
+            color: #ffffff;
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%);
+            border-radius: 15px;
+            margin-top: 25px;
+            border-left: 5px solid #00ffff;
+            animation: definitionReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            line-height: 1.6;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3), inset 0 0 30px rgba(138, 43, 226, 0.2);
+        }
+
+        @keyframes definitionReveal {
+            0% { 
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+                filter: blur(10px);
+            }
+            50% {
+                transform: translateY(-5px) scale(1.02);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .timer-display {
+            font-size: 1.8em;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+            animation: timerPulse 1s infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 255, 0.6));
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 35px;
+        }
+
+        .option {
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+            border: 3px solid rgba(138, 43, 226, 0.4);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 1.15em;
+            animation: optionFadeIn 0.5s ease forwards;
+            opacity: 0;
+            line-height: 1.5;
+            color: #ffffff;
+        }
+
+        @keyframes optionFadeIn {
+            to { opacity: 1; }
+        }
+
+        .option:nth-child(1) { animation-delay: 0.1s; }
+        .option:nth-child(2) { animation-delay: 0.2s; }
+        .option:nth-child(3) { animation-delay: 0.3s; }
+
+        .option:hover {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3) 0%, rgba(0, 255, 255, 0.2) 100%);
+            border-color: #00ffff;
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4), 0 0 40px rgba(138, 43, 226, 0.3);
+        }
+
+        .option.selected {
+            background: linear-gradient(135deg, #8a2be2 0%, #ff00ff 100%);
+            color: white;
+            border-color: #ff00ff;
+            transform: scale(1.05);
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            color: white;
+            border-color: #00ff00;
+            animation: correctAnswer 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1) rotate(2deg); }
+            100% { transform: scale(1.05); }
+        }
+
+        .option.incorrect {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            color: white;
+            border-color: #ff0000;
+            animation: incorrectAnswer 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
+        }
+
+        @keyframes incorrectAnswer {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .results {
+            text-align: center;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .score {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 35px 0;
+            font-weight: 700;
+            animation: scoreReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: drop-shadow(0 0 30px rgba(0, 255, 255, 0.6));
+        }
+
+        @keyframes scoreReveal {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .result-item {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(30, 30, 30, 0.9) 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 18px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+            animation: resultItemFadeIn 0.5s ease forwards;
+            opacity: 0;
+            line-height: 1.6;
+            color: #ffffff;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        @keyframes resultItemFadeIn {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .result-item:nth-child(1) { animation-delay: 0.1s; }
+        .result-item:nth-child(2) { animation-delay: 0.2s; }
+        .result-item:nth-child(3) { animation-delay: 0.3s; }
+        .result-item:nth-child(4) { animation-delay: 0.4s; }
+        .result-item:nth-child(5) { animation-delay: 0.5s; }
+
+        .result-item.correct {
+            border-left: 6px solid #00ff00;
+            box-shadow: 0 5px 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .result-item.incorrect {
+            border-left: 6px solid #ff0000;
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .file-upload {
+            margin: 40px 0;
+            padding: 50px;
+            border: 4px dashed rgba(138, 43, 226, 0.6);
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+        }
+
+        .file-upload:hover {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(0, 255, 255, 0.2) 100%);
+            border-color: #00ffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4), 0 0 60px rgba(138, 43, 226, 0.3);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-upload p {
+            font-size: 1.2em;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .file-status {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            color: white;
+            border-radius: 12px;
+            animation: statusSlideDown 0.5s ease;
+            font-weight: 500;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+        }
+
+        @keyframes statusSlideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 2px solid rgba(138, 43, 226, 0.5);
+            z-index: 999;
+        }
+
+        .footer p {
+            font-size: 0.95em;
+            color: #00ffff;
+            text-shadow: 
+                0 0 10px rgba(0, 255, 255, 0.8),
+                0 0 20px rgba(0, 255, 255, 0.6),
+                0 0 30px rgba(0, 255, 255, 0.4),
+                0 0 40px rgba(138, 43, 226, 0.6);
+            animation: neonPulse 2s infinite;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        @keyframes neonPulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(0, 255, 255, 0.8),
+                    0 0 20px rgba(0, 255, 255, 0.6),
+                    0 0 30px rgba(0, 255, 255, 0.4),
+                    0 0 40px rgba(138, 43, 226, 0.6);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 15px rgba(0, 255, 255, 1),
+                    0 0 30px rgba(0, 255, 255, 0.8),
+                    0 0 45px rgba(0, 255, 255, 0.6),
+                    0 0 60px rgba(138, 43, 226, 0.8);
+            }
+        }
+
+        .motivation {
+            font-size: 1.8em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(255, 0, 255, 0.2) 100%);
+            border-radius: 15px;
+            font-weight: 700;
+            animation: motivationReveal 1s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 2px solid rgba(255, 0, 255, 0.4);
+            position: relative;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(0, 255, 255, 0.8),
+                0 0 20px rgba(255, 0, 255, 0.6),
+                0 0 30px rgba(138, 43, 226, 0.8),
+                0 0 40px rgba(0, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(0, 255, 255, 0.8),
+                    0 0 20px rgba(255, 0, 255, 0.6),
+                    0 0 30px rgba(138, 43, 226, 0.8),
+                    0 0 40px rgba(0, 255, 255, 0.5);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 15px rgba(0, 255, 255, 1),
+                    0 0 30px rgba(255, 0, 255, 0.8),
+                    0 0 45px rgba(138, 43, 226, 1),
+                    0 0 60px rgba(0, 255, 255, 0.7);
+            }
+        }
+
+        @keyframes motivationReveal {
+            0% { 
+                opacity: 0;
+                transform: scale(0.8) rotateX(-90deg);
+            }
+            60% {
+                transform: scale(1.1) rotateX(10deg);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1) rotateX(0deg);
+            }
+        }
+
+        .knowledge-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .knowledge-btn {
+            padding: 15px 35px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 3px solid;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .know-btn {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2) 0%, rgba(0, 200, 0, 0.2) 100%);
+            border-color: #00ff00;
+            color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .know-btn:hover {
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+        }
+
+        .dont-know-btn {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2) 0%, rgba(200, 0, 0, 0.2) 100%);
+            border-color: #ff0000;
+            color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .dont-know-btn:hover {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-timer" id="countdown"></div>
+    
+    <div class="container">
+        <div id="landing" class="landing-page">
+            <h1>English Learning Quiz</h1>
+            
+            <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                <input type="file" id="fileInput" accept=".txt">
+                <p>Söz siyahısını yükləyin</p>
+                <p style="font-size: 0.95em; color: #666; margin-top: 10px;">Format: word: definition</p>
+            </div>
+            <div id="fileStatus"></div>
+
+            <div class="mode-selection">
+                <div class="mode-card" id="timeMode">
+                    <h3>Time Mode</h3>
+                    <p>Hər sual üçün müəyyən vaxt</p>
+                </div>
+                <div class="mode-card" id="timelessMode">
+                    <h3>Timeless Mode</h3>
+                    <p>Vaxt limiti olmadan öyrənmə</p>
+                </div>
+                <div class="mode-card" id="quizMode">
+                    <h3>Quiz Mode</h3>
+                    <p>Test rejimi, bal sistemi</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings" class="settings hidden">
+            <h2>Tənzimləmələr</h2>
+            <div class="input-group">
+                <label for="questionCount">Sual sayı:</label>
+                <input type="number" id="questionCount" min="1" value="10">
+            </div>
+            <div class="input-group" id="timePerQuestionGroup">
+                <label for="timePerQuestion">Hər sual üçün vaxt (saniyə):</label>
+                <input type="number" id="timePerQuestion" min="5" value="30">
+            </div>
+            <div style="text-align: center;">
+                <button id="startBtn">Başla</button>
+                <button id="backBtn">Geri</button>
+            </div>
+        </div>
+
+        <div id="quiz" class="hidden">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">0%</div>
+            </div>
+            <div id="quizContent"></div>
+        </div>
+
+        <div id="results" class="results hidden">
+            <h2>Nəticələr</h2>
+            <div class="score" id="scoreDisplay"></div>
+            <div class="motivation" id="motivation"></div>
+            <div id="resultsList"></div>
+            <button id="restartBtn">Yenidən Başla</button>
+        </div>
+    </div>
+
+    <script>
+        let words = [];
+        let currentMode = '';
+        let currentQuestion = 0;
+        let totalQuestions = 0;
+        let timePerQuestion = 0;
+        let timer = null;
+        let userAnswers = [];
+        let score = 0;
+
+        // Check localStorage for saved words
+        function loadSavedWords() {
+            const savedWords = localStorage.getItem('quizWords');
+            if (savedWords) {
+                words = JSON.parse(savedWords);
+                if (words.length > 0) {
+                    document.getElementById('fileStatus').innerHTML = 
+                        `<div class="file-status">${words.length} söz yaddaşda saxlanılıb</div>`;
+                }
+            }
+        }
+
+        // Save words to localStorage
+        function saveWords() {
+            localStorage.setItem('quizWords', JSON.stringify(words));
+        }
+
+        // Load saved words on page load
+        loadSavedWords();
+
+        // Countdown timer
+        function updateCountdown() {
+            const target = new Date('2026-01-09T10:00:00');
+            const now = new Date();
+            const diff = target - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = 'Vaxt başa çatdı';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').textContent = 
+                `${days}g ${hours}s ${minutes}d ${seconds}s`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // File upload
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const text = e.target.result;
+                    parseWords(text);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function parseWords(text) {
+            words = [];
+            const lines = text.split('\n');
+            let currentWord = '';
+            let currentDefinition = '';
+
+            for (let line of lines) {
+                line = line.trim();
+                if (line.startsWith('word:')) {
+                    if (currentWord && currentDefinition) {
+                        words.push({ word: currentWord, definition: currentDefinition });
+                    }
+                    currentWord = line.replace('word:', '').trim();
+                    currentDefinition = '';
+                } else if (line.startsWith('definiton:') || line.startsWith('definition:')) {
+                    currentDefinition = line.replace(/definit(i)?on:/, '').trim();
+                }
+            }
+
+            if (currentWord && currentDefinition) {
+                words.push({ word: currentWord, definition: currentDefinition });
+            }
+
+            if (words.length > 0) {
+                saveWords();
+                document.getElementById('fileStatus').innerHTML = 
+                    `<div class="file-status">${words.length} söz yükləndi və yadda saxlanıldı</div>`;
+            } else {
+                document.getElementById('fileStatus').innerHTML = 
+                    `<div class="file-status" style="background: linear-gradient(135deg, #f44336 0%, #e53935 100%);">Fayl düzgün formatda deyil</div>`;
+            }
+        }
+
+        // Mode selection event listeners
+        document.getElementById('timeMode').addEventListener('click', () => selectMode('time'));
+        document.getElementById('timelessMode').addEventListener('click', () => selectMode('timeless'));
+        document.getElementById('quizMode').addEventListener('click', () => selectMode('quiz'));
+
+        function selectMode(mode) {
+            if (words.length === 0) {
+                alert('Əvvəlcə söz siyahısı yükləyin');
+                return;
+            }
+
+            currentMode = mode;
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('settings').classList.remove('hidden');
+
+            if (mode === 'timeless') {
+                document.getElementById('timePerQuestionGroup').classList.add('hidden');
+            } else {
+                document.getElementById('timePerQuestionGroup').classList.remove('hidden');
+            }
+        }
+
+        document.getElementById('backBtn').addEventListener('click', goBack);
+        
+        function goBack() {
+            document.getElementById('settings').classList.add('hidden');
+            document.getElementById('landing').classList.remove('hidden');
+        }
+
+        document.getElementById('startBtn').addEventListener('click', startQuiz);
+
+        function startQuiz() {
+            totalQuestions = Math.min(parseInt(document.getElementById('questionCount').value), words.length);
+            timePerQuestion = parseInt(document.getElementById('timePerQuestion').value);
+            
+            currentQuestion = 0;
+            userAnswers = [];
+            score = 0;
+
+            words = words.sort(() => Math.random() - 0.5);
+
+            document.getElementById('settings').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+
+            showQuestion();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / totalQuestions) * 100;
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = progress + '%';
+            progressBar.textContent = `${currentQuestion + 1} / ${totalQuestions}`;
+        }
+
+        function showQuestion() {
+            updateProgress();
+            const content = document.getElementById('quizContent');
+            const word = words[currentQuestion];
+
+            if (currentMode === 'time') {
+                showTimeMode(word, content);
+            } else if (currentMode === 'timeless') {
+                showTimelessMode(word, content);
+            } else if (currentMode === 'quiz') {
+                showQuizMode(word, content);
+            }
+        }
+
+        function showTimeMode(word, content) {
+            let timeLeft = timePerQuestion;
+            let timerInterval = null;
+            
+            content.innerHTML = `
+                <div class="question-card">
+                    <div class="timer-display" id="timer">${timeLeft}s</div>
+                    <div class="word">${word.word}</div>
+                    <div id="definitionArea"></div>
+                </div>
+            `;
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const timerEl = document.getElementById('timer');
+                if (timerEl) timerEl.textContent = timeLeft + 's';
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    clearInterval(timer);
+                    const defArea = document.getElementById('definitionArea');
+                    if (defArea) {
+                        defArea.innerHTML = `
+                            <div class="definition">${word.definition}</div>
+                            <div class="knowledge-buttons">
+                                <button class="knowledge-btn know-btn" id="knowBtn">Bilirəm</button>
+                                <button class="knowledge-btn dont-know-btn" id="dontKnowBtn">Bilmirəm</button>
+                            </div>
+                        `;
+                        document.getElementById('knowBtn').addEventListener('click', () => {
+                            clearInterval(timerInterval);
+                            score += 1;
+                            userAnswers.push({ 
+                                word: word.word, 
+                                correct: true, 
+                                selected: 'Bilirəm',
+                                answer: word.definition 
+                            });
+                            nextQuestion();
+                        });
+                        document.getElementById('dontKnowBtn').addEventListener('click', () => {
+                            clearInterval(timerInterval);
+                            userAnswers.push({ 
+                                word: word.word, 
+                                correct: false, 
+                                selected: 'Bilmirəm',
+                                answer: word.definition 
+                            });
+                            nextQuestion();
+                        });
+                    }
+                }
+            }, 1000);
+        }
+
+        function showTimelessMode(word, content) {
+            content.innerHTML = `
+                <div class="question-card">
+                    <div class="word">${word.word}</div>
+                    <div id="definitionArea">
+                        <button id="showDefBtn">Definitonu göstər</button>
+                    </div>
+                </div>
+            `;
+            
+            const showBtn = document.getElementById('showDefBtn');
+            if (showBtn) {
+                showBtn.addEventListener('click', () => {
+                    const defArea = document.getElementById('definitionArea');
+                    if (defArea) {
+                        defArea.innerHTML = `
+                            <div class="definition">${word.definition}</div>
+                            <div class="knowledge-buttons">
+                                <button class="knowledge-btn know-btn" id="knowBtn">Bilirəm</button>
+                                <button class="knowledge-btn dont-know-btn" id="dontKnowBtn">Bilmirəm</button>
+                            </div>
+                        `;
+                        document.getElementById('knowBtn').addEventListener('click', () => {
+                            score += 1;
+                            userAnswers.push({ 
+                                word: word.word, 
+                                correct: true, 
+                                selected: 'Bilirəm',
+                                answer: word.definition 
+                            });
+                            nextQuestion();
+                        });
+                        document.getElementById('dontKnowBtn').addEventListener('click', () => {
+                            userAnswers.push({ 
+                                word: word.word, 
+                                correct: false, 
+                                selected: 'Bilmirəm',
+                                answer: word.definition 
+                            });
+                            nextQuestion();
+                        });
+                    }
+                });
+            }
+        }
+
+        function nextQuestionNoScore() {
+            clearInterval(timer);
+            currentQuestion++;
+
+            if (currentQuestion >= totalQuestions) {
+                showResultsNoScore();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function showResultsNoScore() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+
+            document.getElementById('scoreDisplay').style.display = 'none';
+            document.getElementById('motivation').style.display = 'none';
+
+            const resultsList = document.getElementById('resultsList');
+            resultsList.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #00ffff; font-size: 1.5em;">
+                    <p style="margin-bottom: 20px;">Bütün sözləri nəzərdən keçirdiniz!</p>
+                    <p style="font-size: 1.2em; color: #ffffff;">Toplam: ${totalQuestions} söz</p>
+                </div>
+            `;
+        }
+
+        function showQuizMode(word, content) {
+            const options = generateOptions(word);
+            let timeLeft = timePerQuestion;
+            let quizTimer = null;
+            let answered = false;
+
+            content.innerHTML = `
+                <div class="question-card">
+                    <div class="timer-display" id="timer">${timeLeft}s</div>
+                    <div class="word">${word.word}</div>
+                    <div class="options" id="options">
+                        ${options.map((opt, idx) => `
+                            <div class="option" data-index="${idx}" data-definition="${opt.replace(/"/g, '&quot;')}">${opt}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            const optionElements = document.querySelectorAll('.option');
+            
+            optionElements.forEach(opt => {
+                opt.addEventListener('click', function(e) {
+                    if (answered) return;
+                    answered = true;
+                    
+                    e.stopPropagation();
+                    clearInterval(quizTimer);
+                    clearInterval(timer);
+                    
+                    const selectedDefinition = this.dataset.definition;
+                    const correctDefinition = word.definition;
+                    const isCorrect = selectedDefinition === correctDefinition;
+                    
+                    // Disable all options
+                    optionElements.forEach(o => o.style.pointerEvents = 'none');
+                    
+                    if (isCorrect) {
+                        this.classList.add('correct');
+                        score += 1;
+                        userAnswers.push({ 
+                            word: word.word, 
+                            correct: true, 
+                            selected: selectedDefinition,
+                            answer: correctDefinition 
+                        });
+                    } else {
+                        this.classList.add('incorrect');
+                        score -= 0.5;
+                        userAnswers.push({ 
+                            word: word.word, 
+                            correct: false, 
+                            selected: selectedDefinition,
+                            answer: correctDefinition 
+                        });
+                        
+                        // Show correct answer
+                        optionElements.forEach(o => {
+                            if (o.dataset.definition === correctDefinition) {
+                                o.classList.add('correct');
+                            }
+                        });
+                    }
+
+                    setTimeout(() => {
+                        clearInterval(quizTimer);
+                        nextQuestion();
+                    }, 1500);
+                });
+            });
+
+            quizTimer = setInterval(() => {
+                timeLeft--;
+                const timerEl = document.getElementById('timer');
+                if (timerEl) {
+                    timerEl.textContent = timeLeft + 's';
+                }
+
+                if (timeLeft <= 0) {
+                    if (answered) return;
+                    answered = true;
+                    
+                    clearInterval(quizTimer);
+                    clearInterval(timer);
+                    userAnswers.push({ word: word.word, correct: false, selected: null, answer: word.definition });
+                    score -= 0.5;
+                    
+                    optionElements.forEach(opt => {
+                        opt.style.pointerEvents = 'none';
+                        if (opt.dataset.definition === word.definition) {
+                            opt.classList.add('correct');
+                        }
+                    });
+                    
+                    setTimeout(() => {
+                        clearInterval(quizTimer);
+                        nextQuestion();
+                    }, 1500);
+                }
+            }, 1000);
+        }
+
+        function generateOptions(correctWord) {
+            const options = [correctWord.definition];
+            const otherWords = words.filter(w => w.word !== correctWord.word);
+            
+            while (options.length < 3 && otherWords.length > 0) {
+                const randomIndex = Math.floor(Math.random() * otherWords.length);
+                const randomDef = otherWords[randomIndex].definition;
+                if (!options.includes(randomDef)) {
+                    options.push(randomDef);
+                }
+                otherWords.splice(randomIndex, 1);
+            }
+
+            return options.sort(() => Math.random() - 0.5);
+        }
+
+        function selectAnswer(index, isCorrect) {
+            clearInterval(timer);
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.style.pointerEvents = 'none');
+            
+            const selectedOption = options[index];
+            const word = words[currentQuestion];
+
+            if (isCorrect) {
+                selectedOption.classList.add('correct');
+                score += 1;
+                userAnswers.push({ 
+                    word: word.word, 
+                    correct: true, 
+                    selected: selectedOption.textContent,
+                    answer: word.definition 
+                });
+            } else {
+                selectedOption.classList.add('incorrect');
+                score -= 0.5;
+                userAnswers.push({ 
+                    word: word.word, 
+                    correct: false, 
+                    selected: selectedOption.textContent,
+                    answer: word.definition 
+                });
+                
+                options.forEach(opt => {
+                    if (opt.textContent === word.definition) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+
+            setTimeout(nextQuestion, 1500);
+        }
+
+        function nextQuestion() {
+            clearInterval(timer);
+            currentQuestion++;
+
+            if (currentQuestion >= totalQuestions) {
+                showResults();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            const motivationEl = document.getElementById('motivation');
+            
+            // Calculate percentage for motivation
+            const percentage = (score / totalQuestions) * 10;
+            let motivation = '';
+            
+            if (percentage < 3) {
+                const messages = [
+                    'Biraz çalışmaq lazımdır, imtahana belə gedə bilməzsən',
+                    'Nəsə oxuduğuna əminsən?'
+                ];
+                motivation = messages[Math.floor(Math.random() * messages.length)];
+            } else if (percentage >= 3 && percentage <= 5) {
+                const messages = [
+                    'Belə davam et',
+                    'Biraz daha çalış'
+                ];
+                motivation = messages[Math.floor(Math.random() * messages.length)];
+            } else if (percentage > 5 && percentage < 9) {
+                const messages = [
+                    'Çox az qaldı, yaxşı irəliləyirsən',
+                    'Davam et, bacarırsan'
+                ];
+                motivation = messages[Math.floor(Math.random() * messages.length)];
+            } else {
+                const messages = [
+                    'You nailed it 🔨',
+                    'Bu iş bitti'
+                ];
+                motivation = messages[Math.floor(Math.random() * messages.length)];
+            }
+
+            scoreDisplay.textContent = `Bal: ${score.toFixed(1)} / ${totalQuestions}`;
+            motivationEl.textContent = motivation;
+
+            const resultsList = document.getElementById('resultsList');
+            resultsList.innerHTML = userAnswers.map(answer => `
+                <div class="result-item ${answer.correct ? 'correct' : 'incorrect'}">
+                    <strong style="font-size: 1.2em; color: #00ffff;">${answer.word}</strong>
+                    <p style="margin-top: 10px;">Doğru cavab: ${answer.answer}</p>
+                    ${answer.selected ? `<p>Sizin cavab: ${answer.selected}</p>` : '<p>Cavab verilməyib</p>'}
+                    <p style="margin-top: 10px; font-weight: 600; color: ${answer.correct ? '#00ff00' : '#ff0000'};">
+                        ${answer.correct ? 'Doğru' : 'Səhv'}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            location.reload();
+        });
+    </script>
+
+    <div class="footer">
+        <p>© 2026 KiberKlub Community. All rights reserved. Unauthorized use is prohibited.</p>
+    </div>
+</body>
+</html>
