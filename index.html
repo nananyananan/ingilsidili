@@ -671,6 +671,111 @@
             transform: translateY(-3px);
             box-shadow: 0 0 40px rgba(255, 0, 0, 0.6);
         }
+        
+        .matching-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .matching-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .matching-column h3 {
+            text-align: center;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+        }
+
+        .matching-item {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(30, 30, 30, 0.8) 100%);
+            border: 3px solid rgba(138, 43, 226, 0.4);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 1.1em;
+            color: #ffffff;
+            text-align: center;
+            animation: matchingItemFadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes matchingItemFadeIn {
+            to { opacity: 1; }
+        }
+
+        .matching-item:nth-child(2) { animation-delay: 0.1s; }
+        .matching-item:nth-child(3) { animation-delay: 0.2s; }
+        .matching-item:nth-child(4) { animation-delay: 0.3s; }
+        .matching-item:nth-child(5) { animation-delay: 0.4s; }
+        .matching-item:nth-child(6) { animation-delay: 0.5s; }
+
+        .matching-item:hover {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3) 0%, rgba(0, 255, 255, 0.2) 100%);
+            border-color: #00ffff;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4), 0 0 40px rgba(138, 43, 226, 0.3);
+        }
+
+        .matching-item.selected {
+            background: linear-gradient(135deg, #8a2be2 0%, #ff00ff 100%);
+            border-color: #ff00ff;
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.6);
+            animation: selectedPulse 0.5s ease;
+        }
+
+        @keyframes selectedPulse {
+            0%, 100% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
+        }
+
+        .matching-item.matched {
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            border-color: #00ff00;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.6);
+            cursor: not-allowed;
+            animation: matchSuccess 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        @keyframes matchSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15) rotate(5deg); }
+            100% { transform: scale(1.05); }
+        }
+
+        .matching-item.wrong {
+            animation: matchWrong 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes matchWrong {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-15px); }
+            75% { transform: translateX(15px); }
+        }
+
+        .matching-score {
+            text-align: center;
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.6));
+        }
     </style>
 </head>
 <body>
@@ -699,6 +804,10 @@
                 <div class="mode-card" id="quizMode">
                     <h3>Quiz Mode</h3>
                     <p>Test rejimi, bal sistemi</p>
+                </div>
+                <div class="mode-card" id="matchingMode">
+                    <h3>Matching Mode</h3>
+                    <p>Sözləri təriflərlə uyğunlaşdır</p>
                 </div>
             </div>
         </div>
@@ -838,6 +947,8 @@
         document.getElementById('timeMode').addEventListener('click', () => selectMode('time'));
         document.getElementById('timelessMode').addEventListener('click', () => selectMode('timeless'));
         document.getElementById('quizMode').addEventListener('click', () => selectMode('quiz'));
+        document.getElementById('matchingMode').addEventListener('click', () => selectMode('matching'));
+
 
         function selectMode(mode) {
             if (words.length === 0) {
@@ -849,10 +960,17 @@
             document.getElementById('landing').classList.add('hidden');
             document.getElementById('settings').classList.remove('hidden');
 
-            if (mode === 'timeless') {
+            if (mode === 'timeless' || mode === 'matching') {
                 document.getElementById('timePerQuestionGroup').classList.add('hidden');
             } else {
                 document.getElementById('timePerQuestionGroup').classList.remove('hidden');
+            }
+
+            if (mode === 'matching') {
+                document.getElementById('questionCount').value = 5;
+                document.getElementById('questionCount').max = 5;
+            } else {
+                document.getElementById('questionCount').max = words.length;
             }
         }
 
@@ -899,6 +1017,8 @@
                 showTimelessMode(word, content);
             } else if (currentMode === 'quiz') {
                 showQuizMode(word, content);
+            } else if (currentMode === 'matching') {
+                showMatchingMode(content);
             }
         }
 
@@ -1252,6 +1372,192 @@
         document.getElementById('restartBtn').addEventListener('click', () => {
             location.reload();
         });
+        let matchingWords = [];
+let matchingDefinitions = [];
+let selectedWord = null;
+let selectedDefinition = null;
+let matchedPairs = 0;
+let matchingScore = 0;
+
+function showMatchingMode(content) {
+    matchedPairs = 0;
+    matchingScore = 0;
+    selectedWord = null;
+    selectedDefinition = null;
+
+    // Select 5 words for matching
+    matchingWords = words.slice(0, 5).map((w, idx) => ({ ...w, id: idx }));
+    matchingDefinitions = [...matchingWords].sort(() => Math.random() - 0.5);
+
+    content.innerHTML = `
+        <div class="question-card">
+            <div class="matching-score" id="matchingScore">Uyğunlaşdırılmış: ${matchedPairs} / 5 | Bal: ${matchingScore}</div>
+            <div class="matching-container">
+                <div class="matching-column">
+                    <h3>Sözlər</h3>
+                    ${matchingWords.map((w, idx) => `
+                        <div class="matching-item" data-word-id="${w.id}" data-word="${w.word}">
+                            ${w.word}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="matching-column">
+                    <h3>Təriflər</h3>
+                    ${matchingDefinitions.map((w, idx) => `
+                        <div class="matching-item" data-def-id="${w.id}" data-definition="${w.definition.replace(/"/g, '&quot;')}">
+                            ${w.definition}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Add event listeners
+        const wordItems = document.querySelectorAll('[data-word-id]');
+        const defItems = document.querySelectorAll('[data-def-id]');
+
+        wordItems.forEach(item => {
+            item.addEventListener('click', () => selectWordItem(item));
+        });
+
+        defItems.forEach(item => {
+            item.addEventListener('click', () => selectDefItem(item));
+        });
+    }
+
+    function selectWordItem(item) {
+        if (item.classList.contains('matched')) return;
+
+        // Deselect previous word
+        document.querySelectorAll('[data-word-id].selected').forEach(el => {
+            el.classList.remove('selected');
+        });
+
+        selectedWord = {
+            id: parseInt(item.dataset.wordId),
+            element: item,
+            word: item.dataset.word
+        };
+        item.classList.add('selected');
+
+        checkMatch();
+    }
+
+    function selectDefItem(item) {
+        if (item.classList.contains('matched')) return;
+
+        // Deselect previous definition
+        document.querySelectorAll('[data-def-id].selected').forEach(el => {
+            el.classList.remove('selected');
+        });
+
+        selectedDefinition = {
+            id: parseInt(item.dataset.defId),
+            element: item,
+            definition: item.dataset.definition
+        };
+        item.classList.add('selected');
+
+        checkMatch();
+    }
+
+    function checkMatch() {
+        if (!selectedWord || !selectedDefinition) return;
+
+        const isCorrect = selectedWord.id === selectedDefinition.id;
+
+        if (isCorrect) {
+            // Correct match
+            selectedWord.element.classList.remove('selected');
+            selectedWord.element.classList.add('matched');
+            selectedDefinition.element.classList.remove('selected');
+            selectedDefinition.element.classList.add('matched');
+            
+            matchedPairs++;
+            matchingScore += 1;
+            
+            selectedWord = null;
+            selectedDefinition = null;
+
+            updateMatchingScore();
+
+            if (matchedPairs === 5) {
+                setTimeout(() => {
+                    showMatchingResults();
+                }, 1000);
+            }
+        } else {
+            // Wrong match
+            selectedWord.element.classList.add('wrong');
+            selectedDefinition.element.classList.add('wrong');
+            matchingScore -= 0.5;
+
+            setTimeout(() => {
+                selectedWord.element.classList.remove('selected', 'wrong');
+                selectedDefinition.element.classList.remove('selected', 'wrong');
+                selectedWord = null;
+                selectedDefinition = null;
+                updateMatchingScore();
+            }, 600);
+        }
+    }
+
+    function updateMatchingScore() {
+        const scoreEl = document.getElementById('matchingScore');
+        if (scoreEl) {
+            scoreEl.textContent = `Uyğunlaşdırılmış: ${matchedPairs} / 5 | Bal: ${matchingScore.toFixed(1)}`;
+        }
+    }
+
+    function showMatchingResults() {
+        document.getElementById('quiz').classList.add('hidden');
+        document.getElementById('results').classList.remove('hidden');
+
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const motivationEl = document.getElementById('motivation');
+        
+        // Calculate percentage for motivation
+        const percentage = (matchingScore / 5) * 100;
+        let motivation = '';
+        
+        if (percentage < 30) {
+            const messages = [
+                'Biraz çalışmaq lazımdır',
+                'Təkrar etməyi unutma'
+            ];
+            motivation = messages[Math.floor(Math.random() * messages.length)];
+        } else if (percentage >= 30 && percentage <= 60) {
+            const messages = [
+                'Yaxşı gedir',
+                'Davam et belə'
+            ];
+            motivation = messages[Math.floor(Math.random() * messages.length)];
+        } else if (percentage > 60 && percentage < 90) {
+            const messages = [
+                'Çox yaxşı!',
+                'Əla irəliləyirsən'
+            ];
+            motivation = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+            const messages = [
+                'Mükəmməl! 🎯',
+                'Perfect match! ⭐'
+            ];
+            motivation = messages[Math.floor(Math.random() * messages.length)];
+        }
+
+        scoreDisplay.textContent = `Bal: ${matchingScore.toFixed(1)} / 5`;
+        motivationEl.textContent = motivation;
+
+        const resultsList = document.getElementById('resultsList');
+        resultsList.innerHTML = matchingWords.map(word => `
+            <div class="result-item correct">
+                <strong style="font-size: 1.2em; color: #00ffff;">${word.word}</strong>
+                <p style="margin-top: 10px;">${word.definition}</p>
+            </div>
+        `).join('');
+    }
     </script>
 
     <div class="footer">
