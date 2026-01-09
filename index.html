@@ -92,17 +92,92 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
-            display: none;
             font-family: 'Poppins', sans-serif;
+            opacity: 0;
+            pointer-events: none;
         }
 
         .back-btn.show {
-            display: block;
+            opacity: 1;
+            pointer-events: all;
         }
 
         .back-btn:hover {
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
+        }
+
+        .xp-display {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 20px;
+            padding: 20px 30px;
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .xp-level {
+            font-size: 2em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .xp-bar-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 20px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .xp-bar-fill {
+            background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .xp-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9em;
+        }
+
+        .xp-gain {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            font-weight: 800;
+            color: #FFD700;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            animation: xpPop 1s ease forwards;
+            pointer-events: none;
+            z-index: 2000;
+        }
+
+        @keyframes xpPop {
+            0% { 
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% { 
+                opacity: 1;
+                transform: translate(-50%, -80%) scale(1.2);
+            }
+            100% { 
+                opacity: 0;
+                transform: translate(-50%, -120%) scale(0.8);
+            }
         }
 
         .hero-section {
@@ -234,20 +309,93 @@
             font-size: 0.95em;
         }
 
+        /* Profile */
+        .profile-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.03);
+            padding: 6px 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.06);
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            z-index: 1200;
+        }
+
+        .profile-btn img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: rgba(255,255,255,0.04);
+            border: 2px solid rgba(255,255,255,0.06);
+        }
+
+        .profile-panel {
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            width: 320px;
+            background: rgba(10,14,39,0.95);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 18px;
+            border-radius: 12px;
+            z-index: 2000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .profile-panel h3 { margin-bottom: 12px; }
+
+        .pfp-preview { display:flex; gap:12px; align-items:center; }
+        .pfp-preview img { width:72px; height:72px; border-radius:50%; object-fit:cover; }
+
+        .profile-panel input[type="text"] { width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); margin-top:10px; background: rgba(255,255,255,0.02); color: #fff; }
+
+        .profile-actions { margin-top:12px; display:flex; gap:8px; justify-content:flex-end; }
+
+        /* XP details panel */
+        .xp-panel {
+            position: fixed;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 420px;
+            background: rgba(10,14,39,0.97);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 18px;
+            border-radius: 12px;
+            z-index: 3000;
+            box-shadow: 0 12px 50px rgba(0,0,0,0.6);
+        }
+
+        .xp-panel h4 { margin:0 0 8px 0; }
+        .xp-panel .xp-row { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.03); }
+        .xp-panel .xp-row:last-child { border-bottom: none; }
+
+        /* Stats profile header */
+        .stats-profile { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+        .stats-profile img { width:48px; height:48px; border-radius:50%; object-fit:cover; border:1px solid rgba(255,255,255,0.06); }
+        .stats-profile .name { font-weight:700; color:#fff; }
+
+
         .quiz-container {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 50px;
+            position: relative;
             max-width: 900px;
             margin: 0 auto;
         }
 
         .mode-home-btn {
-            position: fixed;
-            top: 100px;
-            left: 30px;
+            position: absolute;
+            top: 18px;
+            left: 18px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -259,7 +407,7 @@
             transition: all 0.3s ease;
             font-family: 'Poppins', sans-serif;
             font-size: 1em;
-            z-index: 100;
+            z-index: 20;
         }
 
         .mode-home-btn:hover {
@@ -540,10 +688,21 @@
             }
 
             .mode-home-btn {
-                top: 80px;
-                left: 15px;
-                padding: 10px 20px;
+                top: 12px;
+                left: 12px;
+                padding: 10px 18px;
                 font-size: 0.9em;
+            }
+
+            .xp-display {
+                top: 15px;
+                right: 15px;
+                padding: 15px 20px;
+                min-width: 150px;
+            }
+
+            .xp-level {
+                font-size: 1.5em;
             }
         }
     </style>
@@ -551,11 +710,27 @@
 <body>
     <div class="bg-gradient"></div>
 
+    <!-- XP Display -->
+    <div class="xp-display" id="xpDisplay">
+        <div class="xp-level" id="xpLevel">Level 1</div>
+        <div class="xp-bar-container">
+            <div class="xp-bar-fill" id="xpBar" style="width: 0%"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; gap:12px; align-items:center;">
+            <div class="xp-text" id="xpText">0 / 100 XP</div>
+            <div class="xp-text" id="coinDisplay">🪙 <span id="coinCount">0</span></div>
+        </div>
+        <button id="shopBtnXP" class="btn" style="width:100%; margin-top:12px; padding:8px; font-size:0.9em;">🛍️ Shop</button>
+    </div>
+
     <div class="container">
         <div class="top-bar" id="topBar">
             <div class="left-controls">
                 <div class="logo">English Quiz</div>
-                <button class="home-btn" id="homeBtn" onclick="goHome()">🏠 Home</button>
+                <div id="profileBtn" class="profile-btn" title="Profile">
+                    <img id="profileImg" src="" alt="pfp" />
+                    <span id="profileName">Guest</span>
+                </div>
             </div>
             <button class="back-btn" id="backBtn">← Geri</button>
         </div>
@@ -564,7 +739,8 @@
         <div id="landingPage">
             <div class="hero-section fade-in">
                 <h1 class="hero-title">İngilis Dilini Öyrən</h1>
-                <p class="hero-subtitle">Müasir və interaktiv üsullarla öyrənmə platforması</p>
+                <div id="greeting" style="font-size:1.1em; font-weight:600; margin-bottom:8px; color: #fff;">Salam, Guest!</div>
+                <p class="hero-subtitle" id="heroSubtitle">Müasir və interaktiv üsullarla öyrənmə platforması</p>
             </div>
 
             <div class="upload-box" onclick="document.getElementById('fileInput').click()">
@@ -611,13 +787,15 @@
                     <h3>Bilmədiklərim</h3>
                     <p>Təkrar lazım olan sözləri gözdən keçirin</p>
                 </div>
+
+                <!-- Difficult card removed -->
             </div>
         </div>
 
         <!-- Quiz Page -->
         <div id="quizPage" class="hidden">
             <div class="quiz-container fade-in">
-                <button class="mode-home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="mode-home-btn" id="quizHomeBtn">🏠 Home</button>
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill" style="width: 0%"></div>
@@ -631,7 +809,7 @@
         <!-- Flashcards Page -->
         <div id="flashcardsPage" class="hidden">
             <div class="quiz-container fade-in">
-                <button class="mode-home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="mode-home-btn" id="flashHomeBtn">🏠 Home</button>
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill" id="flashProgress" style="width: 0%"></div>
@@ -645,7 +823,7 @@
         <!-- Connect Page -->
         <div id="connectPage" class="hidden">
             <div class="quiz-container fade-in">
-                <button class="mode-home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="mode-home-btn" id="connectHomeBtn">🏠 Home</button>
                 <div class="progress-container">
                     <div class="progress-bar">
                         <div class="progress-fill" id="connectProgress" style="width: 0%"></div>
@@ -670,7 +848,7 @@
         <!-- Practice Page -->
         <div id="practicePage" class="hidden">
             <div class="quiz-container fade-in">
-                <button class="mode-home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="mode-home-btn" id="practiceHomeBtn">🏠 Home</button>
                 <h2 style="margin-bottom: 30px; text-align: center;">Bütün Sözlər</h2>
                 <div class="word-list" id="practiceList"></div>
             </div>
@@ -679,29 +857,65 @@
         <!-- Statistics Page -->
         <div id="statisticsPage" class="hidden">
             <div class="quiz-container fade-in">
-                <button class="mode-home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="mode-home-btn" id="statsHomeBtn">🏠 Home</button>
                 <h2 style="margin-bottom: 30px; text-align: center;">Statistika</h2>
-                <div class="stats-grid" id="statsContent"></div>
+                    <div id="statsProfileHeader" class="stats-profile">
+                        <img id="statsPfp" src="" alt="pfp" />
+                        <div>
+                            <div class="name" id="statsNickname">Guest</div>
+                            <div style="color: rgba(255,255,255,0.6); font-size:0.9em;">İstifadəçi</div>
+                        </div>
+                    </div>
+                    <div class="stats-grid" id="statsContent"></div>
             </div>
         </div>
 
         <!-- Unknown Words Page -->
         <div id="unknownPage" class="hidden">
             <div class="quiz-container fade-in">
-                <button class="mode-home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="mode-home-btn" id="unknownHomeBtn">🏠 Home</button>
                 <h2 style="margin-bottom: 30px; text-align: center;">Bilmədiklərim</h2>
                 <div class="word-list" id="unknownList"></div>
             </div>
         </div>
 
+        <!-- Profile Page -->
+        <div id="profilePage" class="hidden">
+            <div class="quiz-container fade-in">
+                <button class="mode-home-btn" id="profileHomeBtn">🏠 Home</button>
+                <div style="text-align:center; margin-bottom:40px;">
+                    <img id="pageProfileImg" src="" alt="pfp" style="width:120px; height:120px; border-radius:50%; object-fit:cover; margin-bottom:16px;" />
+                    <h2 id="pageProfileName" style="margin-bottom:8px;">Guest</h2>
+                    <div style="color:rgba(255,255,255,0.6); font-size:1.1em; margin-bottom:20px;">Level <span id="pageProfileLevel">1</span></div>
+                    <div id="pageProfileBadges" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(80px,1fr)); gap:12px; margin-bottom:30px;"></div>
+                </div>
+                <hr style="margin:20px 0; border-color: rgba(255,255,255,0.05);" />
+                <h3 style="margin-bottom:20px; text-align:center;">Profil Ayarları</h3>
+                <div class="pfp-preview" style="margin-bottom:16px;">
+                    <img id="pageProfilePfp" src="" alt="preview" />
+                    <div style="flex:1">
+                        <label for="pageProfilePicInput" class="btn" style="display:inline-block; padding:8px 12px;">Şəkil Yüklə</label>
+                        <input id="pageProfilePicInput" type="file" accept="image/*" style="display:none" />
+                        <input id="pageNicknameInput" type="text" placeholder="Ləqəb" />
+                    </div>
+                </div>
+                <div class="profile-actions" style="margin-bottom:16px;">
+                    <button class="btn btn-secondary" id="pageProfileCancel">Ləğv</button>
+                    <button class="btn" id="pageProfileSave">Yadda saxla</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Difficult page removed -->
+
         <!-- Results Page -->
         <div id="resultsPage" class="hidden">
             <div class="quiz-container fade-in">
-                <button class="mode-home-btn" onclick="goHome()">🏠 Home</button>
+                <button class="mode-home-btn" id="resultsHomeBtn">🏠 Home</button>
                 <h2 style="text-align: center; margin-bottom: 30px;">Nəticələr</h2>
                 <div id="resultsContent"></div>
                 <div class="center">
-                    <button class="btn" onclick="goHome()">Ana Səhifə</button>
+                    <button class="btn" id="resultsBtn">Ana Səhifə</button>
                 </div>
             </div>
         </div>
@@ -711,7 +925,41 @@
         </div>
     </div>
 
-    <script>
+    <!-- Profile Panel -->
+    <div id="profilePanel" class="profile-panel hidden">
+        <h3>Profil</h3>
+        <div class="pfp-preview">
+            <img id="pfpPreview" src="" alt="preview" />
+            <div style="flex:1">
+                <label for="profilePicInput" class="btn" style="display:inline-block; padding:8px 12px;">Şəkil Yüklə</label>
+                <input id="profilePicInput" type="file" accept="image/*" style="display:none" />
+                <input id="nicknameInput" type="text" placeholder="Ləqəb" />
+            </div>
+        </div>
+        <div class="profile-actions">
+            <button class="btn btn-secondary" id="profileCancel">Ləğv</button>
+            <button class="btn" id="profileSave">Yadda saxla</button>
+        </div>
+        <hr style="margin:12px 0; border-color: rgba(255,255,255,0.05);" />
+        <h4 style="margin:8px 0">Fəaliyyət Nişanları</h4>
+        <div id="badgesList" style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;"></div>
+        <hr style="margin:12px 0; border-color: rgba(255,255,255,0.05);" />
+        <h4 style="margin:8px 0">Shop</h4>
+        <div id="shopList" style="display:grid; grid-template-columns:1fr; gap:10px;"></div>
+    </div>
+
+    <!-- XP Details Panel -->
+    <div id="xpPanel" class="xp-panel hidden">
+        <h4>XP Detalları</h4>
+        <div id="xpPanelContent">
+            <!-- filled dynamically -->
+        </div>
+        <div style="text-align:right; margin-top:12px;">
+            <button class="btn btn-secondary" id="xpClose">Bağla</button>
+        </div>
+    </div>
+
+     <script>
         let words = [];
         let unknownWords = [];
         let stats = {
@@ -719,7 +967,10 @@
             knownWords: 0,
             quizzesCompleted: 0,
             flashcardsCompleted: 0,
-            connectCompleted: 0
+            flashcardWins: 0,
+            connectCompleted: 0,
+            xp: 0,
+            level: 1
         };
 
         let currentQuiz = [];
@@ -727,6 +978,242 @@
         let correctAnswers = 0;
 
         loadData();
+
+        // Profile & Shop
+        let profile = { nickname: 'Guest', avatar: '', coins: 150, ownedFrames: ['default'], selectedFrame: 'default', theme: 'dark', fontSize: 'normal' };
+
+        const framesCatalog = [
+            { id: 'default', name: 'Default Frame', price: 0, style: '' },
+            { id: 'gold', name: 'Golden Frame', price: 200, style: '4px solid #FFD700; box-shadow: 0 0 12px rgba(255,215,0,0.6)' },
+            { id: 'neon', name: 'Neon Purple', price: 120, style: '4px solid #764ba2; box-shadow: 0 0 18px rgba(118,75,162,0.6)' },
+            { id: 'green', name: 'Mint Green', price: 80, style: '3px solid #4caf50; box-shadow: 0 0 12px rgba(76,175,80,0.35)' },
+            { id: 'crimson', name: 'Crimson Glow', price: 150, style: '4px solid #dc143c; box-shadow: 0 0 18px rgba(220,20,60,0.6)' },
+            { id: 'diamond', name: 'Diamond', price: 250, style: '5px solid #00d4ff; box-shadow: 0 0 25px rgba(0,212,255,0.7)' },
+            { id: 'sunset', name: 'Sunset', price: 180, style: '4px solid #ff6b35; box-shadow: 0 0 15px rgba(255,107,53,0.6)' }
+        ];
+        function initialsDataUrl(name, size = 128, bg = '#667eea', fg = '#ffffff') {
+            const initials = (name || 'G').split(' ').map(s => s[0]).join('').slice(0,2).toUpperCase();
+            const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}'><rect width='100%' height='100%' fill='${bg}' rx='${size/6}'/><text x='50%' y='50%' dy='0.35em' text-anchor='middle' fill='${fg}' font-family='Poppins, sans-serif' font-size='${Math.floor(size/2.5)}'>${initials}</text></svg>`;
+            return 'data:image/svg+xml;base64,' + btoa(svg);
+        }
+
+        function loadProfile() {
+            const saved = localStorage.getItem('profile');
+            if (saved) profile = JSON.parse(saved);
+            document.getElementById('profileName').textContent = profile.nickname || 'Guest';
+            const img = document.getElementById('profileImg');
+            const preview = document.getElementById('pfpPreview');
+            const statsPfp = document.getElementById('statsPfp');
+
+            if (profile.avatar) {
+                img.src = profile.avatar;
+                preview.src = profile.avatar;
+                statsPfp.src = profile.avatar;
+            } else {
+                const svg = initialsDataUrl(profile.nickname || 'Guest', 128);
+                img.src = svg;
+                preview.src = svg;
+                statsPfp.src = svg;
+            }
+
+            // update greeting and stats nickname
+            const greet = document.getElementById('greeting');
+            if (greet) greet.textContent = `Salam, ${profile.nickname || 'Guest'}!`;
+            const sn = document.getElementById('statsNickname');
+            if (sn) sn.textContent = profile.nickname || 'Guest';
+
+            // apply selected frame
+            applyFrameToElements(profile.selectedFrame);
+
+            // update coins display
+            updateCoinDisplay();
+
+            // render shop list and badges
+            renderShop();
+            renderBadges();
+        }
+
+        function saveProfile() {
+            const nick = document.getElementById('nicknameInput').value.trim();
+            if (nick) profile.nickname = nick;
+            localStorage.setItem('profile', JSON.stringify(profile));
+            loadProfile();
+        }
+
+        function updateCoinDisplay() {
+            const el = document.getElementById('coinCount');
+            if (el) el.textContent = profile.coins || 0;
+        }
+
+        function applyFrameToElements(frameId) {
+            const frame = framesCatalog.find(f => f.id === frameId) || framesCatalog[0];
+            const targets = ['profileImg','pfpPreview','statsPfp'];
+            targets.forEach(id => {
+                const e = document.getElementById(id);
+                if (!e) return;
+                // clear all frame styles
+                e.style.border = '';
+                e.style.boxShadow = '';
+                if (!frame.style) return;
+                // simple parsing: split by semicolon and find border and box-shadow
+                const parts = frame.style.split(';').map(s => s.trim()).filter(Boolean);
+                parts.forEach(p => {
+                    if (p.includes('box-shadow:')) {
+                        e.style.boxShadow = p.replace('box-shadow:', '').trim();
+                    } else if (p.includes('border') && !p.includes('box-shadow')) {
+                        e.style.border = p.replace('border:', '').trim();
+                    }
+                });
+            });
+        }
+
+        function renderShop() {
+            const container = document.getElementById('shopList');
+            if (!container) return;
+            container.innerHTML = framesCatalog.map(f => {
+                const owned = (profile.ownedFrames || []).includes(f.id);
+                const isSelected = profile.selectedFrame === f.id;
+                return `
+                    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px; background: rgba(255,255,255,0.02); border-radius:10px;">
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <div style="width:56px; height:56px; border-radius:10px; background:#111; display:flex; align-items:center; justify-content:center; ${f.style}"></div>
+                            <div>
+                                <div style="font-weight:700">${f.name}</div>
+                                <div style="color:rgba(255,255,255,0.6); font-size:0.9em">${f.price} coins</div>
+                            </div>
+                        </div>
+                        <div>
+                            ${owned ? `<button class="btn" onclick="selectFrame('${f.id}')">${isSelected ? 'Selected' : 'Use'}</button>` : `<button class="btn btn-success" onclick="buyFrame('${f.id}')">Buy</button>`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            updateCoinDisplay();
+        }
+
+        function buyFrame(frameId) {
+            const f = framesCatalog.find(x => x.id === frameId);
+            if (!f) return alert('Frame not found');
+            if ((profile.ownedFrames || []).includes(frameId)) return selectFrame(frameId);
+            if ((profile.coins || 0) < f.price) return alert('Kifayət qədər sikkə yoxdur');
+            profile.coins -= f.price;
+            profile.ownedFrames.push(frameId);
+            profile.selectedFrame = frameId;
+            saveProfile();
+            renderShop();
+            alert('Alındı!');
+        }
+
+        function selectFrame(frameId) {
+            if (!(profile.ownedFrames || []).includes(frameId)) return alert('Əvvəlcə almalı və ya əldə etməlisiniz');
+            profile.selectedFrame = frameId;
+            saveProfile();
+            renderShop();
+        }
+
+        function getBadges() {
+            const badges = [];
+            const lvl = stats.level || 1;
+            const total = (stats.quizzesCompleted || 0) + (stats.flashcardsCompleted || 0) + (stats.connectCompleted || 0);
+            const fcWins = stats.flashcardWins || 0;
+            
+            // Flashcard-specific badges
+            if (fcWins >= 5) badges.push({ emoji: '🎴', title: 'Flashcard Amateur', desc: '5x Flashcard Win' });
+            if (fcWins >= 10) badges.push({ emoji: '⭐', title: 'Flashcard Beginner', desc: '10x Flashcard Win' });
+            if (fcWins >= 20) badges.push({ emoji: '🌟', title: 'Flashcard Master', desc: '20x Flashcard Win' });
+            
+            // Level badges
+            if (lvl >= 5) badges.push({ emoji: '⚡', title: 'Level 5', desc: 'Reach Level 5' });
+            if (lvl >= 10) badges.push({ emoji: '💫', title: 'Level 10', desc: 'Reach Level 10' });
+            if (lvl >= 20) badges.push({ emoji: '👑', title: 'Level 20', desc: 'Reach Level 20' });
+            
+            // Game completion badges
+            if ((stats.quizzesCompleted || 0) >= 1) badges.push({ emoji: '🎯', title: 'Quiz Master', desc: 'Complete Quiz' });
+            if ((stats.connectCompleted || 0) >= 1) badges.push({ emoji: '🔗', title: 'Connector', desc: 'Complete Connect' });
+            if ((stats.flashcardsCompleted || 0) >= 1) badges.push({ emoji: '🎴', title: 'Flashcard', desc: 'Complete Flashcards' });
+            
+            // Total games badge
+            if (total >= 5) badges.push({ emoji: '🏆', title: 'Player', desc: 'Complete 5 Games' });
+            if (total >= 10) badges.push({ emoji: '🥇', title: 'Champion', desc: 'Complete 10 Games' });
+            
+            return badges;
+        }
+
+        function renderBadges() {
+            const container = document.getElementById('badgesList');
+            if (!container) return;
+            const badges = getBadges();
+            container.innerHTML = badges.map(b => `
+                <div style="text-align:center; padding:8px; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,215,0,0.2);" title="${b.title}: ${b.desc}">
+                    <div style="font-size:1.8em;">${b.emoji}</div>
+                    <div style="font-size:0.7em; color:rgba(255,255,255,0.7);">${b.title}</div>
+                </div>
+            `).join('');
+            if (badges.length === 0) {
+                container.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); font-size:0.9em; padding:12px;">Nişanlar kazanmaq üçün oyunlar oynayın!</div>';
+            }
+        }
+
+        document.getElementById('profileBtn').addEventListener('click', () => {
+            showProfile();
+        });
+
+        document.getElementById('shopBtnXP').addEventListener('click', () => {
+            const panel = document.getElementById('profilePanel');
+            panel.classList.remove('hidden');
+            document.getElementById('nicknameInput').value = profile.nickname || '';
+        });
+
+        // Profile page listeners
+        document.getElementById('profileHomeBtn').addEventListener('click', goHome);
+
+        document.getElementById('pageProfilePicInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                profile.avatar = ev.target.result;
+                document.getElementById('pageProfileImg').src = profile.avatar;
+                document.getElementById('pageProfilePfp').src = profile.avatar;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('pageProfileSave').addEventListener('click', () => {
+            const nick = document.getElementById('pageNicknameInput').value.trim();
+            if (nick) profile.nickname = nick;
+            localStorage.setItem('profile', JSON.stringify(profile));
+            loadProfile();
+            showProfile();
+        });
+
+        document.getElementById('pageProfileCancel').addEventListener('click', goHome);
+
+        document.getElementById('profilePicInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                profile.avatar = ev.target.result;
+                document.getElementById('pfpPreview').src = profile.avatar;
+                document.getElementById('profileImg').src = profile.avatar;
+                document.getElementById('statsPfp').src = profile.avatar;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('profileSave').addEventListener('click', () => {
+            saveProfile();
+            document.getElementById('profilePanel').classList.add('hidden');
+        });
+
+        document.getElementById('profileCancel').addEventListener('click', () => {
+            document.getElementById('profilePanel').classList.add('hidden');
+        });
+
+        // init
+        loadProfile();
+        renderBadges();
 
         // File upload
         document.getElementById('fileInput').addEventListener('change', (e) => {
@@ -770,7 +1257,6 @@
 
         // Navigation
         document.getElementById('backBtn').addEventListener('click', goHome);
-        document.getElementById('homeBtn').addEventListener('click', goHome);
         
         document.getElementById('startQuiz').addEventListener('click', () => {
             if (words.length === 0) return alert('Əvvəlcə söz yükləyin!');
@@ -791,15 +1277,25 @@
         document.getElementById('statistics').addEventListener('click', showStatistics);
         document.getElementById('unknown').addEventListener('click', showUnknown);
 
+        // Page home buttons
+        document.getElementById('quizHomeBtn').addEventListener('click', goHome);
+        document.getElementById('flashHomeBtn').addEventListener('click', goHome);
+        document.getElementById('connectHomeBtn').addEventListener('click', goHome);
+        document.getElementById('practiceHomeBtn').addEventListener('click', goHome);
+        document.getElementById('statsHomeBtn').addEventListener('click', goHome);
+        document.getElementById('unknownHomeBtn').addEventListener('click', goHome);
+        document.getElementById('resultsHomeBtn').addEventListener('click', goHome);
+        document.getElementById('resultsBtn').addEventListener('click', goHome);
+
         function goHome() {
-            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.container > div:not(#topBar)').forEach(el => el.classList.add('hidden'));
             document.getElementById('landingPage').classList.remove('hidden');
             document.getElementById('backBtn').classList.remove('show');
             document.getElementById('topBar').style.marginBottom = '40px';
         }
 
         function showPage(pageId) {
-            document.querySelectorAll('.container > div').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.container > div:not(#topBar)').forEach(el => el.classList.add('hidden'));
             document.getElementById(pageId).classList.remove('hidden');
             document.getElementById('backBtn').classList.add('show');
             document.getElementById('topBar').style.marginBottom = '20px';
@@ -827,7 +1323,7 @@
             
             const options = [...wrongOptions, word].sort(() => Math.random() - 0.5);
 
-            updateProgress(currentIndex, currentQuiz.length, 'progressFill', 'progressText');
+            updateProgress(currentIndex, currentQuiz.length, 'progressFill', 'progressText', 'Sual');
 
             document.getElementById('quizContent').innerHTML = `
                 <div class="question-word">${word.word}</div>
@@ -853,6 +1349,12 @@
 
             if (isCorrect) {
                 correctAnswers++;
+                // award XP for correct answer
+                stats.xp = (stats.xp || 0) + 10;
+                saveData();
+                showXPGain(10);
+                // award coins for correct answer
+                addCoins(5);
                 options[index].classList.add('correct');
             } else {
                 const wordObj = currentQuiz[currentIndex];
@@ -895,7 +1397,7 @@
 
             flashcardRevealed = false;
             const word = currentQuiz[currentIndex];
-            updateProgress(currentIndex, currentQuiz.length, 'flashProgress', 'flashProgressText');
+            updateProgress(currentIndex, currentQuiz.length, 'flashProgress', 'flashProgressText', 'Kart');
 
             document.getElementById('flashcardsContent').innerHTML = `
                 <div class="question-word">${word.word}</div>
@@ -931,6 +1433,7 @@
                 }
             } else {
                 stats.knownWords++;
+                stats.flashcardWins = (stats.flashcardWins || 0) + 1;
                 saveData();
             }
             currentIndex++;
@@ -1022,7 +1525,11 @@
 
                 if (matchedCount === connectWords.length) {
                     setTimeout(() => {
+                        // reward for completing connect
                         stats.connectCompleted++;
+                        // XP and coin rewards
+                        addXP(20);
+                        addCoins(30);
                         saveData();
                         showConnectResults();
                     }, 500);
@@ -1079,8 +1586,15 @@
         // Statistics
         function showStatistics() {
             showPage('statisticsPage');
-            const knownPercentage = stats.totalWords > 0 
-                ? Math.round(((stats.totalWords - unknownWords.length) / stats.totalWords) * 100)
+            // ensure totals are in sync
+            stats.totalWords = words.length || 0;
+            unknownWords = unknownWords || [];
+
+            const knownCount = stats.totalWords > 0 ? (stats.totalWords - unknownWords.length) : 0;
+            stats.knownWords = knownCount;
+
+            const knownPercentage = stats.totalWords > 0
+                ? Math.round((knownCount / stats.totalWords) * 100)
                 : 0;
 
             const totalGames = (stats.quizzesCompleted || 0) + (stats.flashcardsCompleted || 0) + (stats.connectCompleted || 0);
@@ -1091,7 +1605,7 @@
                     <div class="stat-label">Toplam Söz</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-value">${(stats.totalWords || 0) - unknownWords.length}</div>
+                    <div class="stat-value">${knownCount}</div>
                     <div class="stat-label">Bildiyim</div>
                 </div>
                 <div class="stat-card">
@@ -1101,6 +1615,14 @@
                 <div class="stat-card">
                     <div class="stat-value">${knownPercentage}%</div>
                     <div class="stat-label">Bilik Faizi</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">${stats.level || 1}</div>
+                    <div class="stat-label">Səviyyə</div>
+                </div>
+                <div class="stat-card" id="xpCard" style="cursor:pointer; position:relative; z-index:2;" role="button" tabindex="0" aria-pressed="false" onclick="showXPDetails()">
+                    <div class="stat-value">${stats.xp || 0} / ${xpRequiredFor(stats.level)}</div>
+                    <div class="stat-label">XP</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value">${totalGames}</div>
@@ -1119,9 +1641,35 @@
                     <div class="stat-label">Birləşdir</div>
                 </div>
             `;
+
+            // bind XP card click to show details
+            const xpCardEl = document.getElementById('xpCard');
+            if (xpCardEl) xpCardEl.addEventListener('click', showXPDetails);
         }
 
-        // Unknown
+        // Profile page handler
+        function showProfile() {
+            showPage('profilePage');
+            const pfp = profile.avatar || initialsDataUrl(profile.nickname || 'Guest', 128);
+            document.getElementById('pageProfileImg').src = pfp;
+            document.getElementById('pageProfileName').textContent = profile.nickname || 'Guest';
+            document.getElementById('pageProfileLevel').textContent = stats.level || 1;
+            document.getElementById('pageProfilePfp').src = pfp;
+            document.getElementById('pageNicknameInput').value = profile.nickname || '';
+            
+            // Render badges
+            const badges = getBadges();
+            const badgeContainer = document.getElementById('pageProfileBadges');
+            badgeContainer.innerHTML = badges.map(b => `
+                <div style="text-align:center; padding:12px; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,215,0,0.2);" title="${b.title}: ${b.desc}">
+                    <div style="font-size:2em;">${b.emoji}</div>
+                    <div style="font-size:0.75em; color:rgba(255,255,255,0.7); margin-top:4px;">${b.title}</div>
+                </div>
+            `).join('');
+            if (badges.length === 0) {
+                badgeContainer.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:rgba(255,255,255,0.5); font-size:0.9em; padding:20px;">Nişanlar kazanmaq üçün oyunlar oynayın!</div>';
+            }
+        }
         function showUnknown() {
             showPage('unknownPage');
             if (unknownWords.length === 0) {
@@ -1144,6 +1692,8 @@
             }
         }
 
+        // 'Difficult' feature removed; use Unknown words section instead
+
         window.removeUnknown = function(index) {
             unknownWords.splice(index, 1);
             stats.knownWords++;
@@ -1155,6 +1705,8 @@
         function showResults(type) {
             if (type === 'quiz') stats.quizzesCompleted++;
             saveData();
+            // reward coins for completing a quiz
+            if (type === 'quiz') addCoins(20);
             showPage('resultsPage');
 
             const total = currentQuiz.length;
@@ -1198,13 +1750,118 @@
         }
 
         // Utility
-        function updateProgress(current, total, barId, textId) {
+        // enhanced updateProgress with label support
+        function updateProgress(current, total, barId, textId, label = 'Sual') {
             const percent = ((current + 1) / total) * 100;
             document.getElementById(barId).style.width = percent + '%';
             if (textId) {
-                document.getElementById(textId).textContent = `Sual ${current + 1} / ${total}`;
+                document.getElementById(textId).textContent = `${label} ${current + 1} / ${total}`;
             }
         }
+
+        // XP / Level handling
+        function xpRequiredFor(level) {
+            // exponential growth: base 100, multiplier 1.5 per level
+            return Math.max(50, Math.floor(100 * Math.pow(1.5, Math.max(0, level - 1))));
+        }
+
+        function updateXPDisplay() {
+            stats.xp = stats.xp || 0;
+            stats.level = stats.level || 1;
+
+            // level up as long as we have enough XP
+            while (true) {
+                const req = xpRequiredFor(stats.level);
+                if (stats.xp >= req) {
+                    stats.xp -= req;
+                    stats.level += 1;
+                } else break;
+            }
+
+            const reqNext = xpRequiredFor(stats.level);
+            const percent = Math.min(100, Math.round((stats.xp / reqNext) * 100));
+            document.getElementById('xpBar').style.width = percent + '%';
+            document.getElementById('xpLevel').textContent = `Level ${stats.level}`;
+            document.getElementById('xpText').textContent = `${stats.xp} / ${reqNext} XP`;
+        }
+
+        function showXPGain(amount) {
+            if (!amount || amount <= 0) return;
+            const el = document.createElement('div');
+            el.className = 'xp-gain';
+            el.textContent = `+${amount} XP`;
+            document.body.appendChild(el);
+            // remove after animation (1s)
+            setTimeout(() => el.remove(), 1100);
+        }
+
+        // Coins helper and UI
+        function showCoinGain(amount) {
+            if (!amount || amount <= 0) return;
+            const el = document.createElement('div');
+            el.className = 'xp-gain';
+            el.style.color = '#4caf50';
+            el.textContent = `+${amount} 🪙`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1100);
+        }
+
+        function addCoins(amount) {
+            if (!amount || amount <= 0) return;
+            profile.coins = (profile.coins || 0) + amount;
+            // persist immediately
+            localStorage.setItem('profile', JSON.stringify(profile));
+            updateCoinDisplay();
+            showCoinGain(amount);
+        }
+
+        function addXP(amount) {
+            if (!amount || amount <= 0) return;
+            stats.xp = (stats.xp || 0) + amount;
+            updateXPDisplay();
+            saveData();
+            showXPGain(amount);
+        }
+
+        function showXPDetails() {
+            const panel = document.getElementById('xpPanel');
+            const content = document.getElementById('xpPanelContent');
+            const lvl = stats.level || 1;
+            const xp = stats.xp || 0;
+            const req = xpRequiredFor(lvl);
+            const percent = Math.round((xp / req) * 100);
+
+            content.innerHTML = `
+                <div class="xp-row"><div>Hazırkı Səviyyə</div><div><strong>${lvl}</strong></div></div>
+                <div class="xp-row"><div>XP (Cari)</div><div><strong>${xp} / ${req}</strong></div></div>
+                <div class="xp-row"><div>Proqress</div><div><strong>${percent}%</strong></div></div>
+                <div style="margin-top:12px; color: rgba(255,255,255,0.7); font-size:0.95em;">XP necə qazanılır: Quiz doğru cavab +10, Connect tamamlama +20.</div>
+                <div style="margin-top:8px; color: rgba(255,255,255,0.7); font-size:0.95em;">Sikkə necə qazanılır: Quiz doğru cavab +5, Quiz tamamlanma +20, Connect tamamlanma +30.</div>
+            `;
+
+            panel.classList.remove('hidden');
+        }
+
+        document.getElementById('xpClose').addEventListener('click', () => {
+            document.getElementById('xpPanel').classList.add('hidden');
+        });
+
+        // Delegated handler: ensure clicks on xp card fire even if element re-renders
+        document.addEventListener('click', (e) => {
+            const xpEl = e.target.closest && e.target.closest('#xpCard');
+            if (xpEl) showXPDetails();
+        });
+
+        // Handle Enter/Space key activation for accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const active = document.activeElement;
+                if (active && active.id === 'xpCard') {
+                    e.preventDefault();
+                    showXPDetails();
+                }
+            }
+        });
 
         function loadData() {
             const savedWords = localStorage.getItem('quizWords');
@@ -1215,6 +1872,15 @@
             if (savedUnknown) unknownWords = JSON.parse(savedUnknown);
             if (savedStats) stats = JSON.parse(savedStats);
 
+            // ensure xp/level defaults
+            stats.xp = stats.xp || 0;
+            stats.level = stats.level || 1;
+
+            // ensure totalWords synced with loaded words
+            stats.totalWords = words.length || 0;
+
+            updateXPDisplay();
+
             if (words.length > 0) {
                 document.getElementById('fileStatus').innerHTML = 
                     `<div class="file-status">✅ ${words.length} söz yükləndi</div>`;
@@ -1222,10 +1888,14 @@
         }
 
         function saveData() {
+            // keep totals in sync
+            stats.totalWords = words.length || 0;
             localStorage.setItem('quizWords', JSON.stringify(words));
             localStorage.setItem('unknownWords', JSON.stringify(unknownWords));
             localStorage.setItem('statistics', JSON.stringify(stats));
+            updateXPDisplay();
         }
     </script>
-</body>
+
+    </body>
 </html>
